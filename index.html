@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disastro Positivo — Pianura Padana, Covid e inquinamento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #edf1f4;
+      --panel: #fbfcfd;
+      --ink: #101820;
+      --muted: #62707d;
+      --line: #ccd6df;
+      --deep: #0c1720;
+      --deep-2: #132532;
+      --teal: #1f9f92;
+      --amber: #ff6a2a;
+      --red: #d12f24;
+      --blue: #1a6f9b;
+      --cream: #dde6ec;
+      --shadow: 0 28px 80px rgba(11, 23, 33, 0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        linear-gradient(180deg, var(--deep) 0 760px, #e9eef2 760px, var(--bg) 100%);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(12, 23, 32, 0.86);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(14px);
+    }
+    .nav-inner {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 64px;
+      gap: 24px;
+    }
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0;
+      color: #fff;
+    }
+    .brand span {
+      color: var(--amber);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.68);
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    .hero {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 86px 0 82px;
+      display: grid;
+      grid-template-columns: minmax(0, 0.86fr) minmax(380px, 1.14fr);
+      gap: 44px;
+      align-items: center;
+      position: relative;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 42px auto auto -52px;
+      width: 170px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--amber), transparent);
+      opacity: .9;
+    }
+    .eyebrow {
+      margin: 0 0 14px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+    h1 {
+      margin: 0 0 20px;
+      font-size: clamp(3.4rem, 8.5vw, 8.2rem);
+      line-height: 0.84;
+      letter-spacing: 0;
+      max-width: 760px;
+      color: #fff;
+    }
+    .accent {
+      color: var(--amber);
+      font-family: "Instrument Serif", Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+    .hero-copy {
+      margin: 0 0 26px;
+      max-width: 620px;
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      color: rgba(255,255,255,0.72);
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid rgba(255,255,255,0.82);
+      background: #fff;
+      color: var(--deep);
+      text-decoration: none;
+      font-weight: 800;
+      border-radius: 999px;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .button.secondary {
+      background: transparent;
+      color: #fff;
+      border-color: rgba(255,255,255,0.32);
+    }
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(18, 48, 71, 0.16);
+    }
+    .hero-visual {
+      position: relative;
+      min-height: 500px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #111;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.14);
+      isolation: isolate;
+      transform: rotate(1.2deg);
+    }
+    .hero-visual img {
+      width: 100%;
+      height: 100%;
+      min-height: 500px;
+      object-fit: cover;
+      filter: saturate(1.1) contrast(1.02);
+    }
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(9,22,35,0.02), rgba(9,22,35,0.62));
+      z-index: 1;
+    }
+    .hero-stat {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 22px;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      align-items: end;
+      padding: 20px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+    }
+    .hero-stat strong {
+      display: block;
+      font-size: clamp(2.25rem, 5vw, 4.2rem);
+      line-height: 0.9;
+      color: var(--red);
+    }
+    .hero-stat span {
+      display: block;
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .pill-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 24px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 12px;
+      border: 1px solid rgba(31,111,91,0.24);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.82);
+      backdrop-filter: blur(10px);
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    section {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 72px 0;
+      border-top: 1px solid rgba(22,32,30,0.11);
+    }
+    #confronto {
+      margin-top: 10px;
+      border-top: 0;
+    }
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.72fr) minmax(300px, 0.8fr);
+      gap: 36px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+    h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.2rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+    .section-head p,
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .compare-shell {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .compare {
+      --pos: 50%;
+      position: relative;
+      overflow: hidden;
+      border-radius: 9px;
+      background: #101410;
+      aspect-ratio: 1080 / 574;
+      user-select: none;
+      touch-action: none;
+    }
+    .compare img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+    .compare .before {
+      clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+      z-index: 2;
+    }
+    .compare-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: var(--pos);
+      width: 2px;
+      transform: translateX(-1px);
+      background: #fff;
+      z-index: 4;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.18);
+      pointer-events: none;
+    }
+    .compare-handle {
+      position: absolute;
+      left: var(--pos);
+      top: 50%;
+      width: 48px;
+      height: 48px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: #fff;
+      color: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      border: 1px solid rgba(0,0,0,0.18);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+      font-weight: 800;
+      pointer-events: none;
+    }
+    .compare-handle::before,
+    .compare-handle::after {
+      content: "";
+      display: block;
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+    }
+    .compare-handle::before {
+      border-right: 8px solid var(--red);
+      margin-right: 3px;
+    }
+    .compare-handle::after {
+      border-left: 8px solid var(--red);
+      margin-left: 3px;
+    }
+    .compare-label {
+      position: absolute;
+      top: 14px;
+      z-index: 6;
+      padding: 7px 10px;
+      border-radius: 7px;
+      background: rgba(255,255,255,0.92);
+      color: var(--ink);
+      font-size: 0.78rem;
+      font-weight: 800;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.16);
+    }
+    .compare-label.left { left: 14px; }
+    .compare-label.right { right: 14px; }
+    .compare input[type="range"] {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: ew-resize;
+    }
+    .compare-caption {
+      margin: 14px 2px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .legend {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 600;
+    }
+    .legend-bar {
+      height: 9px;
+      min-width: 260px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #0736c4, #1bbfe3, #a7ec59, #ffd748, #f47b23, #bd1715);
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .split-note {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .note {
+      border-radius: 10px;
+      padding: 18px;
+      background: var(--cream);
+      border: 1px solid rgba(22,32,30,0.1);
+    }
+    .note strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.98rem;
+    }
+    .note p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 14px 34px rgba(31,38,35,0.08);
+    }
+    .card.accent-card {
+      background: var(--deep);
+      color: #fff;
+      border-color: var(--deep);
+    }
+    .card.accent-card p,
+    .card.accent-card .metric {
+      color: rgba(255,255,255,0.78);
+    }
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.06rem;
+      line-height: 1.25;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+    .metric {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 2.45rem;
+      line-height: 1;
+      font-weight: 800;
+      color: var(--deep);
+    }
+    .wide-panel {
+      margin-top: 18px;
+      padding: 28px;
+      background: linear-gradient(135deg, var(--deep), #17445a);
+      color: #fff;
+      border-radius: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(280px, 1fr);
+      gap: 28px;
+      align-items: center;
+    }
+    .wide-panel h3 {
+      margin: 0;
+      font-size: clamp(1.4rem, 3vw, 2.35rem);
+      line-height: 1.08;
+    }
+    .wide-panel p {
+      margin: 0;
+      color: rgba(255,255,255,0.78);
+    }
+
+    .source-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+    .source-list li { margin: 7px 0; }
+
+    footer {
+      margin-top: 36px;
+      background: var(--deep);
+      color: #e9ece7;
+      padding: 34px 0;
+    }
+    .footer-inner {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      color: rgba(255,255,255,0.68);
+      font-size: 0.92rem;
+    }
+    .footer-inner span {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .hero,
+      .section-head,
+      .wide-panel,
+      .split-note {
+        grid-template-columns: 1fr;
+      }
+      .hero { padding-top: 48px; }
+      .content-grid { grid-template-columns: 1fr; }
+      .compare-caption,
+      .footer-inner {
+        flex-direction: column;
+      }
+      .legend {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+      }
+      .legend-bar { min-width: 0; }
+    }
+
+    @media (max-width: 520px) {
+      .nav-inner,
+      .hero,
+      section,
+      .footer-inner {
+        width: min(100% - 28px, 1120px);
+      }
+      .hero { padding-bottom: 34px; }
+      .hero-visual,
+      .hero-visual img {
+        min-height: 340px;
+      }
+      .hero-stat {
+        grid-template-columns: 1fr;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        padding: 14px;
+      }
+      section { padding: 52px 0; }
+      .compare-shell { padding: 10px; }
+      .compare-label {
+        top: 8px;
+        font-size: 0.68rem;
+      }
+      .compare-label.left { left: 8px; }
+      .compare-label.right { right: 8px; }
+      .compare-handle {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <div class="brand">Disastro <span>Positivo</span></div>
+      <div class="nav-links">
+        <a href="#confronto">Confronto</a>
+        <a href="#contesto">Contesto</a>
+        <a href="#dati">Dati</a>
+        <a href="#riflessione">Riflessione</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Educazione civica e ambiente</p>
+      <h1>Disastro <span class="accent">Positivo</span></h1>
+      <p class="hero-copy">Il lockdown è stato un disastro sociale ed economico, ma ha lasciato un dato utile: quando traffico e attività rallentano, l'aria cambia davvero. Questo progetto usa la Pianura Padana per mostrare quella lezione in modo diretto.</p>
+      <div class="pill-row" aria-label="Temi principali">
+        <span class="pill">NO2</span>
+        <span class="pill">salute pubblica</span>
+        <span class="pill">scelte collettive</span>
+      </div>
+      <div class="hero-actions">
+        <a class="button" href="#confronto">Apri il confronto</a>
+        <a class="button secondary" href="#riflessione">Conclusione</a>
+      </div>
+    </div>
+    <figure class="hero-visual" aria-label="Mappa satellitare dell'inquinamento oggi">
+      <img src="Inquinamento_Oggi.png" alt="Mappa dell'inquinamento atmosferico oggi nella Pianura Padana">
+      <figcaption class="hero-stat">
+        <strong>-40%</strong>
+        <span>Riduzione stimata di NO2 osservata in molte aree del Nord Italia durante le restrizioni del 2020.</span>
+      </figcaption>
+    </figure>
+  </header>
+
+  <section id="confronto" class="fade-in">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Confronto interattivo</p>
+        <h2>Trascina la linea e confronta le due mappe.</h2>
+      </div>
+      <p>A sinistra compare il periodo Covid, a destra la situazione attuale. I colori freddi indicano concentrazioni più basse; giallo, arancione e rosso indicano valori più elevati.</p>
+    </div>
+
+    <div class="compare-shell">
+      <div class="compare" data-compare>
+        <img src="Inquinamento_Oggi.png" alt="Mappa dell'inquinamento oggi sulla Pianura Padana">
+        <img class="before" src="Inquinamento_Covid.png" alt="Mappa dell'inquinamento durante il periodo Covid sulla Pianura Padana">
+        <span class="compare-label left">Durante Covid</span>
+        <span class="compare-label right">Oggi</span>
+        <span class="compare-line"></span>
+        <span class="compare-handle" aria-hidden="true"></span>
+        <input type="range" min="0" max="100" value="50" aria-label="Sposta lo slider per confrontare le due mappe">
+      </div>
+      <div class="legend">
+        <span>Bassa concentrazione</span>
+        <span class="legend-bar"></span>
+        <span style="text-align:right">Alta concentrazione</span>
+      </div>
+    </div>
+    <div class="split-note">
+      <div class="note">
+        <strong>Durante Covid</strong>
+        <p>La riduzione di traffico e attività ha abbassato molte emissioni, rendendo meno estese le aree con colori caldi.</p>
+      </div>
+      <div class="note">
+        <strong>Oggi</strong>
+        <p>Con la ripresa degli spostamenti e delle attività produttive, le concentrazioni tornano più evidenti in diverse zone.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contesto" class="fade-in">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Contesto</p>
+        <h2>Perché il biossido di azoto è un tema di educazione civica.</h2>
+      </div>
+      <p>La qualità dell'aria non è solo un dato scientifico: riguarda salute pubblica, mobilità, scelte energetiche e responsabilità collettiva.</p>
+    </div>
+
+    <div class="content-grid">
+      <article class="card accent-card">
+        <h3>Che cos'è l'NO2</h3>
+        <p>Il biossido di azoto è un gas prodotto soprattutto da combustione, traffico, riscaldamento e attività industriali. Irrita le vie respiratorie e peggiora la qualità dell'aria urbana.</p>
+      </article>
+      <article class="card">
+        <h3>Perché si concentra al Nord</h3>
+        <p>La Pianura Padana ha molte aree urbane e produttive ravvicinate. Quando l'aria circola poco, gli inquinanti restano più a lungo vicino al suolo.</p>
+      </article>
+      <article class="card">
+        <h3>Cosa mostra il Covid</h3>
+        <p>Durante le restrizioni del 2020 molte attività e molti spostamenti sono diminuiti. Il confronto delle mappe rende visibile il peso delle attività umane.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="dati" class="fade-in">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Dati essenziali</p>
+        <h2>Numeri semplici per leggere il fenomeno.</h2>
+      </div>
+      <p>I valori cambiano in base a periodo, meteo e zona osservata, ma il messaggio civico resta chiaro: ridurre le emissioni modifica rapidamente l'aria.</p>
+    </div>
+
+    <div class="content-grid">
+      <article class="card">
+        <span class="metric">-40%</span>
+        <h3>Riduzione stimata</h3>
+        <p>In diverse aree del Nord Italia le concentrazioni di NO2 calarono sensibilmente durante le restrizioni del 2020.</p>
+      </article>
+      <article class="card">
+        <span class="metric">24 h</span>
+        <h3>Monitoraggio continuo</h3>
+        <p>I satelliti per l'osservazione atmosferica permettono di confrontare aree vaste e periodi diversi con continuità.</p>
+      </article>
+      <article class="card">
+        <span class="metric">4</span>
+        <h3>Fonti principali</h3>
+        <p>Traffico, industria, riscaldamento e produzione energetica sono tra i fattori più importanti per le emissioni locali.</p>
+      </article>
+    </div>
+
+    <div class="wide-panel">
+      <h3>Il punto non è fermare la vita quotidiana, ma organizzarla meglio.</h3>
+      <p>Trasporto pubblico efficace, edifici più efficienti, mobilità elettrica dove ha senso, controlli sulle emissioni e pianificazione urbana possono ridurre l'inquinamento senza aspettare un'emergenza.</p>
+    </div>
+  </section>
+
+  <section id="riflessione" class="fade-in">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Riflessione finale</p>
+        <h2>Che cosa possiamo imparare dal confronto.</h2>
+      </div>
+      <p>La mappa non serve solo a vedere dove l'aria è più inquinata. Serve a capire che le decisioni pubbliche e private lasciano una traccia misurabile.</p>
+    </div>
+
+    <div class="content-grid">
+      <article class="card">
+        <h3>Scelte individuali</h3>
+        <p>Usare mezzi pubblici, condividere spostamenti, ridurre consumi inutili e scegliere energia più pulita sono azioni piccole, ma ripetute da molti diventano rilevanti.</p>
+      </article>
+      <article class="card">
+        <h3>Scelte collettive</h3>
+        <p>Le istituzioni possono incidere con trasporti, norme sulle emissioni, aree verdi, riqualificazione degli edifici e politiche industriali più severe.</p>
+      </article>
+      <article class="card">
+        <h3>Domanda per la classe</h3>
+        <p>Quali misure realistiche potrebbe adottare una città della Pianura Padana per ridurre l'inquinamento senza bloccare lavoro, scuola e spostamenti?</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="fade-in">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Fonti</p>
+        <h2>Materiali e riferimenti usati.</h2>
+      </div>
+      <ul class="source-list">
+        <li>ESA Copernicus e Sentinel-5P/TROPOMI per il contesto sul monitoraggio satellitare.</li>
+        <li>European Environment Agency e ISPRA per il contesto su qualità dell'aria ed emissioni.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <span>Leonardo Foroncelli</span>
+      <span>Mirko Tomelleri</span>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('[data-compare]').forEach((compare) => {
+      const range = compare.querySelector('input[type="range"]');
+      const setPosition = (value) => compare.style.setProperty('--pos', `${value}%`);
+      setPosition(range.value);
+      range.addEventListener('input', () => setPosition(range.value));
+
+      const moveFromPointer = (event) => {
+        const rect = compare.getBoundingClientRect();
+        const x = Math.min(Math.max(event.clientX - rect.left, 0), rect.width);
+        const value = Math.round((x / rect.width) * 100);
+        range.value = value;
+        setPosition(value);
+      };
+
+      compare.addEventListener('pointerdown', (event) => {
+        compare.setPointerCapture(event.pointerId);
+        moveFromPointer(event);
+      });
+      compare.addEventListener('pointermove', (event) => {
+        if (event.buttons === 1) moveFromPointer(event);
+      });
+    });
+
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach((el) => fadeObserver.observe(el));
+  </script>
+</body>
+</html>
